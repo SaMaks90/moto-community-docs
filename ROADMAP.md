@@ -3,6 +3,8 @@
 > Solo development, part-time pace. Dates are targets, not deadlines.
 > The goal is to ship something real, not something rushed.
 
+**Phase = release version.** Phase 1 ends with v1 in the App Store. Phase 2 is a major update focused on business and community growth.
+
 ---
 
 ## Done
@@ -13,6 +15,7 @@
 - [x] Authentication — register, login, logout, refresh tokens, email verification
 - [x] User profile — CRUD, avatar upload (Cloudflare R2), location, bio, Instagram
 - [x] Rides — create, update, join, leave, status management
+- [x] Cron job — auto-activate rides when `date_time` is reached (`planned` → `active`)
 - [x] Ride filters — geo-radius (earthdistance), status, date range, moto type, engine size
 - [x] Pagination — page / limit on rides list
 - [x] Capacity check — enforce max_participants on join
@@ -23,122 +26,129 @@
 
 ### iOS Foundation — April 2026
 - [x] App architecture (SwiftUI, AppState, navigation)
-- [x] Auth flow — login, register
-- [x] User profile — view and edit
-- [x] Settings — change password, resend verification, notification preferences
+- [x] Auth flow — login, register, email verification
+- [x] User profile — view, edit (username, location, Instagram), avatar upload
+- [x] Settings — change password, resend verification, notification preferences, logout
 - [x] Networking layer — JWT auth, auto token refresh, error handling
 - [x] Secure token storage (Keychain)
-- [x] Localization framework
+- [x] Localization framework (EN, UK, PL, DE)
+- [x] Location service
+
+### iOS Core Screens — April 2026
+- [x] Rides list screen — paginated feed with RideCardView, filterable by status / moto type / engine size
+- [x] Create ride screen — full form (location, date, moto type, engine size, passenger seat)
+- [x] Edit ride screen — edit fields and change ride status (with allowed transition logic)
+- [x] My rides screen — rides created and joined by the current user
+- [x] Join / leave ride — with capacity check and error handling
+- [x] New shared components — RideStatusBadge, ChipSelector, FilterButton, EmptyStateView
 
 ---
 
-## Phase 1 — iOS Core Screens
-**Target: April 14 – May 25, 2026 (6 weeks)**
+## Phase 1 — v1 App Store Release
+**Target: May – July 2026**
 
-The backend is ready. This phase is purely iOS — bringing the existing API to life on screen.
+Everything needed for a complete, shippable v1. Phase 1 ends when the app is in the App Store.
+The goal: a product people actually want to use — a closed core loop from finding a ride to building trust in the community.
 
-- [ ] Rides list screen — paginated, filterable by status / moto type / engine size
-- [ ] Ride details screen — info, participants list, creator profile
-- [ ] Create ride screen — form with all fields (location, date, filters, passenger seat option)
-- [ ] Join / leave ride — with full / already joined error handling
-- [ ] Map screen — MapKit, nearby rides as pins, tap to open details
-- [ ] Local feed screen — nearby rides, activity, community events filtered by region
-- [ ] Avatar upload — complete the existing UI integration
-- [ ] My rides screen — rides created and joined by current user
+### Core Loop
+```
+Find a ride → Join → Ride together → Rate participants → Add to Riding Circle → See their next ride first
+```
 
----
+### iOS Screens
+- [ ] Ride details screen — info, participants list, creator profile with Trust Score
+- [ ] Map screen — MapKit, nearby rides as pins, tap to open ride details
+- [ ] News tab — "Coming Soon" placeholder (full feed planned for v2)
 
-## Phase 2 — v1 New Features
-**Target: May 26 – June 29, 2026 (5 weeks)**
+### Rider Languages
+*For emigrants and travelers who want to ride but face a language barrier.*
+- [ ] Backend — languages field on user profile, accepted_languages on rides
+- [ ] iOS — language selector on profile (e.g. 🇺🇦 Ukrainian · 🇬🇧 English)
+- [ ] iOS — language tags visible on ride card and ride details
+- [ ] iOS — "Languages for this ride" field in create/edit ride (optional, empty = all welcome)
+- [ ] iOS — filter rides by language in rides list
 
-Features that make MotoCommunity different from a simple ride planner.
-
-### Passenger Mode
-- [ ] Backend — add `passenger` role to ride_participants, seat availability logic
-- [ ] iOS — toggle "I have a free seat" when creating a ride
-- [ ] iOS — "Join as passenger" option on ride details
-
-### Rider Ratings
-- [ ] Backend — ratings table, POST /rides/:id/rate endpoint, average rating on user profile
-- [ ] iOS — post-ride rating prompt (shown after ride status → completed)
-- [ ] iOS — rating display on user profile (stars + count)
-
-### SOS Help
-- [ ] Backend — sos_requests table, POST /sos, GET /sos/nearby, resolve endpoint
-- [ ] iOS — SOS button (persistent, accessible from map screen)
-- [ ] iOS — nearby SOS alerts for riders within radius
-- [ ] iOS — SOS history on profile
-
----
-
-## Phase 3 — Push Notifications + Polish
-**Target: June 30 – July 20, 2026 (3 weeks)**
-
-Push notifications are required for SOS to work — without them, a rider with the app closed never receives an emergency alert. This phase completes the v1 feature set and prepares for launch.
-
-### Prerequisites
-- [ ] **Purchase Apple Developer Program** — $99/year, required for APNs, TestFlight, and App Store
+### Trust & Riding Circle
+- [ ] Backend — ratings table, POST /rides/:id/rate, average rating on profile
+- [ ] Backend — riding_circle table, add/remove riders, circle count on profile
+- [ ] iOS — post-ride rating screen (appears after ride status → completed)
+- [ ] iOS — "Add to Riding Circle" suggestion after giving 4–5 ⭐
+- [ ] iOS — Trust Score on profile (avg rating + rides count + circle count)
+- [ ] iOS — Riding Circle list on profile
+- [ ] iOS — Feed priority — rides from Circle shown first
 
 ### Push Notifications
+- [ ] **Purchase Apple Developer Program** — $99/year, required for APNs, TestFlight, App Store
 - [ ] Backend — APNs integration, device token storage, notification service
 - [ ] iOS — register device token on login, handle foreground/background/terminated state
-- [ ] Notification types: SOS alert nearby, someone joined your ride, ride status changed, new ride nearby
+- [ ] Notification types: someone joined your ride, ride status changed, new ride from Circle member
 - [ ] Notification preferences — per-type on/off (UI already exists in Settings)
 
-### Localization
-- [ ] Polish translation — coordinate with native speaker from the community
-- [ ] German translation — coordinate with native speaker
-- [ ] QA all 4 languages (EN, UK, PL, DE) — layouts, text overflow, RTL check
-
-### Polish
+### Polish & Launch Prep
 - [ ] Error states and empty states on all screens
 - [ ] Loading skeletons / indicators where missing
 - [ ] Offline handling — graceful errors on no connection
 - [ ] Performance — image caching, pagination edge cases
 - [ ] App icon, launch screen, onboarding flow
-
----
-
-## Phase 4 — Beta & App Store Launch
-**Target: July 21 – August 4, 2026 (2 weeks)**
-
+- [ ] QA all four languages (EN, UK, PL, DE) — layouts, text overflow
 - [ ] Beta test with 10–20 real riders via TestFlight
 - [ ] Bug fixing from beta feedback
 - [ ] App Store Connect setup — screenshots, description, keywords, age rating
-- [ ] Submit for App Store review (allow ~7 days for Apple review)
+- [ ] Submit for App Store review
 - [ ] Launch in Ukraine as first market
-- [ ] Basic analytics setup (track: registrations, rides created, SOS activations)
 
-**Soft launch goal: August 2026**
+**v1 launch goal: August 2026**
 
 ---
 
-## Phase 5 — v2 Community Features
+## Phase 2 — v2 Business & Community
 **Target: Q4 2026**
 
 Only after v1 is live and stable with real user feedback.
+Phase 2 is business-oriented — features that grow the community and generate revenue.
 
+### Local Feed
+- [ ] Backend — feed algorithm: nearby rides + Riding Circle activity + community events
+- [ ] iOS — Local feed screen replacing the "Coming Soon" placeholder
+- [ ] iOS — activity cards: new rides nearby, rides from Circle, community events
+
+### SOS Help
+- [ ] Backend — sos_requests table, POST /sos, GET /sos/nearby, resolve endpoint
+- [ ] iOS — SOS button (persistent, accessible from map screen)
+- [ ] iOS — nearby SOS alerts with push notification
+- [ ] iOS — SOS history on profile
+- [ ] Push notification type: SOS alert from nearby rider
+
+### Passenger Mode
+- [ ] Backend — passenger role in ride_participants, seat availability logic
+- [ ] iOS — "I have a free seat" toggle when creating a ride
+- [ ] iOS — "Join as passenger" option on ride details
+
+### Community & Monetization
 - [ ] Clubs — create/join private groups, member roles, club rides
 - [ ] STO Catalog — service station directory with ratings and reviews
 - [ ] Local business announcements — geo-targeted posts from shops, events, brands
-- [ ] Chat — direct messages between riders
+- [ ] Sponsored rides — brand/shop sponsorship visible on ride card
 - [ ] Android app — find a contributor or co-developer
 
 ---
 
-## Phase 7 — v3 Platform
+## Phase 3 — v3 Platform
 **Target: 2027**
 
 - [ ] Bike History — service and ownership records by plate number
 - [ ] Marketplace — buy/sell gear and motorcycles
 - [ ] Web dashboard — for club organizers and STO owners
+- [ ] Chat — direct messages between riders
+- [ ] Open API — public read-only API for event aggregators and navigation apps
 
 ---
 
 ## Notes
 
-- Phases 1 and 2 can overlap if backend changes for Phase 2 are small
-- SOS is the most complex feature — ship a basic version first, iterate later
-- Push notifications are blocked on Apple Developer account — plan the $99 purchase before Phase 4
+- Phase 1 = v1 App Store release. Nothing ships until the core loop is complete.
+- Push notifications are blocked on Apple Developer account ($99) — buy before starting APNs work
+- App Store review can take 1–14 days — submit early
+- SOS moved to Phase 2 — it requires push notifications and is too complex for v1
+- Local Feed moved to Phase 2 — News tab shows "Coming Soon" in v1
 - Android is not planned for solo development — looking for a contributor or co-founder
-- App Store review can take 1–14 days — submit early, don't wait until the last moment

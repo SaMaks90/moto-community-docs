@@ -70,7 +70,7 @@ After every completed ride or SOS response, participants can rate each other wit
 | Component | Status |
 |-----------|--------|
 | Backend API | MVP complete |
-| iOS App | In progress |
+| iOS App | Core screens done — Rides (list, create, edit, my rides, join/leave), Profile, Settings, Avatar upload. Map + Ride details screen in progress |
 | Android App | Planned |
 | Passenger Mode | Planned (v1) |
 | Rider Ratings | Planned (v1) |
@@ -113,6 +113,7 @@ After every completed ride or SOS response, participants can rate each other wit
 - [Roadmap](./ROADMAP.md) — what's built, what's next
 - [Tech Stack](./TECH.md) — architecture and infrastructure decisions
 - [API Reference](./API.md) — endpoints overview
+- [Interactive API Docs (Swagger)](https://moto-community-backend-pre-production.up.railway.app/docs/) — live, try it directly
 - [Ideas](./IDEAS.md) — future feature backlog
 
 ---

@@ -2,10 +2,8 @@
 
 The backend exposes a REST API with full interactive documentation via Swagger UI.
 
-Once the backend repository is public, the full API docs will be available at:
-```
-GET /api-docs
-```
+**Interactive docs (live):**
+[https://moto-community-backend-pre-production.up.railway.app/docs/](https://moto-community-backend-pre-production.up.railway.app/docs/)
 
 ---
 
