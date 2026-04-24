@@ -65,19 +65,21 @@ After every completed ride or SOS response, participants can rate each other wit
 
 ## Status
 
-> Currently in active development. Backend MVP is complete. iOS app is in progress.
+> Currently in active development. Backend MVP is complete. iOS app Phase 1 is in progress.
 
 | Component | Status |
 |-----------|--------|
-| Backend API | MVP complete |
-| iOS App | Core screens done — Rides (list, create, edit, my rides, join/leave), Profile, Settings, Avatar upload. Map + Ride details screen in progress |
+| Backend API | MVP complete — auth, rides, participants, geo-filtering, status validation, metrics |
+| iOS App | Core done — Auth, Rides (list, create, edit, my rides, join/leave, detail), Map (pins, filters, preview card), Profile, Settings, PublicProfile |
+| Localization (EN, UK, PL, DE) | Complete |
+| Rider Languages | Planned (v1) |
+| Follow System | ✅ Complete (backend + iOS) |
+| Trust & Riding Circle | Planned (v1) |
+| Push Notifications | Planned (v1, blocked — requires Apple Developer account $99) |
 | Android App | Planned |
 | Passenger Mode | Planned (v1) |
-| Rider Ratings | Planned (v1) |
-| SOS System | Planned (v1) |
-| Push Notifications | Planned (v1, required for SOS) |
-| Local Feed | Planned (v1) |
-| Localization (EN, UK, PL, DE) | In progress |
+| SOS System | Planned (v2) |
+| Local Feed | Planned (v2) |
 | Clubs | Planned (v2) |
 | STO Catalog | Planned (v2) |
 | Bike History | Planned (v3) |

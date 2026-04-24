@@ -82,6 +82,8 @@ Core/
 
 **No third-party networking library** — pure `URLSession`. Keeps dependencies minimal for a project at this stage.
 
+**Certificate pinning** — `PinningURLSessionDelegate` validates the server's public key hash (SHA-256 of SPKI) on every TLS handshake. Pinning is skipped in `#if DEBUG` so dev tools like Charles Proxy work. At least two hashes should be kept (leaf + backup) to survive cert rotation. Disabled in DEBUG builds.
+
 ---
 
 ## Infrastructure
@@ -131,6 +133,126 @@ The localization framework (`Localization.swift`, `LocalizationManager.swift`) i
 
 ---
 
+## Security
+
+### Backend measures in place (as of April 2026)
+
+| Area | Implementation |
+|------|----------------|
+| **Security headers** | `helmet` — sets X-Frame-Options, HSTS, CSP, X-Content-Type-Options |
+| **Rate limiting** | `express-rate-limit` — 100 req/15min globally; 10 req/15min on login and register |
+| **CORS** | `origin: false` — browser cross-origin requests blocked; mobile clients unaffected |
+| **Auth — token storage** | Refresh tokens stored as SHA-256 hashes in DB (raw token never persisted) |
+| **Auth — token expiry** | Access token: 15 min · Refresh token: 30 days (JWT and DB aligned) |
+| **Auth — password** | bcrypt (10 rounds) · min 8 chars, uppercase, number, special character |
+| **Authorization** | Ride update and status change verify `creator_id === userId` → 403 |
+| **File upload** | Avatar limited to 5 MB · MIME whitelist: `image/jpeg`, `image/png`, `image/webp` |
+| **Input validation** | Zod on all request body, params, and query — including coordinate range checks |
+| **DB queries** | Parameterized queries throughout — no string interpolation |
+| **Error responses** | Stack traces never exposed — generic 500 for unexpected errors |
+
+### iOS measures in place (as of April 2026)
+
+| Area | Implementation |
+|------|----------------|
+| **Certificate pinning** | `PinningURLSessionDelegate` — SHA-256 SPKI hash check on every TLS handshake; skipped in DEBUG |
+| **Token storage** | Both access and refresh tokens stored in Keychain with `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` |
+| **Password fields** | `SecureField` with `textContentType(.password)` and `privacySensitive()` — prevents copy and marks content as sensitive |
+| **App Switcher privacy** | `.privacyScreen()` modifier on auth and password screens — overlays black when app is not active |
+| **Password validation** | Complexity enforced client-side on register and change-password (mirrors backend rules) |
+| **Memory hygiene** | Passwords cleared from `@Published` properties immediately after successful submit |
+| **Debug logging** | Only `[statusCode] /path` logged in DEBUG — no response bodies, no tokens, no PII |
+
+### Password requirements (backend + iOS)
+
+- Minimum 8 characters
+- At least one uppercase letter
+- At least one number
+- At least one special character
+
+Rules are enforced on the backend (Zod schema) and mirrored in iOS UI validation (`RegisterViewModel`, `ChangePasswordViewModel`).
+
+### Certificate pinning — operational notes
+
+Before each production release, update `PinningURLSessionDelegate.pinnedHashes` with current hashes:
+
+```bash
+openssl s_client -connect <host>:443 </dev/null 2>/dev/null \
+  | openssl x509 -pubkey -noout \
+  | openssl pkey -pubin -outform DER \
+  | openssl dgst -sha256 -binary \
+  | base64
+```
+
+Keep the old hash alongside the new one during the transition window so existing app versions continue to work.
+
+---
+
+## Logging
+
+### Strategy
+
+Structured JSON logging via **`pino`** written to stdout. Every hosting platform (Railway, AWS, Fly.io, Render, VPS) reads stdout natively — no code changes needed when migrating infrastructure.
+
+```
+pino (JSON to stdout) → hosting platform stdout → [optional] external log sink
+```
+
+### Log levels
+
+| Level | When |
+|-------|------|
+| `info` | Every request: method, path, status code, duration |
+| `warn` | Non-critical issues: validation failures, token refresh attempts |
+| `error` | Exceptions, unhandled rejections, DB errors (with stack trace) |
+
+### External sink (optional, recommended before launch)
+
+Railway supports **Log Drains** — forwards all stdout to an external service without touching code. Recommended: **Better Stack** (free tier: 1 GB/month, 30-day retention).
+
+When migrating hosting: reconnect the Log Drain to the new server. Log history stays in Better Stack. Zero code changes.
+
+---
+
+## Scalability Plan
+
+### Current baseline (Phase 1, ~1 000 users)
+
+| Layer | Current setup | Limit |
+|-------|--------------|-------|
+| Backend | Railway (single instance, Node.js) | ~500 concurrent requests |
+| Database | Neon serverless PostgreSQL | ~100 concurrent connections |
+| Storage | Cloudflare R2 | Practically unlimited |
+| Email | Resend | 100 emails/day (free tier) |
+
+### When to scale and how (no rewrites needed)
+
+**~5 000 users — minor changes:**
+- Railway: upgrade plan or add a second instance (Railway supports horizontal scaling with a toggle)
+- Neon: upgrade to a paid plan for more compute and connections
+- Resend: upgrade to paid plan ($20/month for 50 000 emails)
+
+**~20 000 users — infrastructure changes, no code rewrite:**
+- Migrate backend from Railway to **AWS ECS / Fly.io** — same Docker container, new hosting. `pino` logs continue flowing to Better Stack via Log Drain
+- Add a **connection pooler** in front of Neon (PgBouncer or Neon's built-in pooling)
+- Add **Redis** for session caching and rate limiting state (replacing in-memory `express-rate-limit`)
+
+**~100 000+ users — architectural changes:**
+- Horizontal scaling behind a load balancer (Nginx / AWS ALB)
+- Read replicas for DB-heavy queries (ride list, map feed)
+- CDN in front of Cloudflare R2 for avatars (already on Cloudflare network, minimal work)
+- Consider splitting into microservices if team grows — but module structure is already feature-separated
+
+### Key decisions already made for scalability
+
+- **Stateless JWT auth** — any instance can validate any token, no sticky sessions needed
+- **Feature-based module structure** — easy to extract a module into a separate service later
+- **pino stdout logging** — hosting-agnostic, works on any platform
+- **Cloudflare R2** — zero egress fees, no vendor lock-in vs AWS S3
+- **Parameterized SQL** — no ORM means query optimization is explicit and straightforward
+
+---
+
 ## Future Infrastructure Considerations
 
 | Need | Option |
@@ -139,3 +261,4 @@ The localization framework (`Localization.swift`, `LocalizationManager.swift`) i
 | Android | React Native or native Kotlin — to be decided |
 | Real-time (SOS alerts) | WebSockets or Server-Sent Events on the existing Express server |
 | Background jobs | Simple cron via Railway or a lightweight queue (BullMQ) |
+| Log aggregation | Better Stack via Railway Log Drain (no code changes needed) |
