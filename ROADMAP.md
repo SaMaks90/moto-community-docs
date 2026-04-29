@@ -77,14 +77,6 @@ Find a ride → Join → Ride together → Rate the ride → Add creator to Ridi
 - [x] iOS — "Forgot password?" link on login screen → enter email screen
 - [x] iOS — deep link handler for reset URL from email → new password screen
 
-### Rider Languages
-*For emigrants and travelers who want to ride but face a language barrier.*
-- [ ] Backend — languages field on user profile, accepted_languages on rides
-- [ ] iOS — language selector on profile (e.g. 🇺🇦 Ukrainian · 🇬🇧 English)
-- [ ] iOS — language tags visible on ride card and ride details
-- [ ] iOS — "Languages for this ride" field in create/edit ride (optional, empty = all welcome)
-- [ ] iOS — filter rides by language in the ride list
-
 ### Trust & Riding Circle
 - [x] Backend — ride_reviews table, POST /rides/:id/rate, avg_rating on profile (one rating per ride → trust score of the creator)
 - [x] Backend — riding_circle table, add/remove riders, circle_count on profile
@@ -104,6 +96,27 @@ Find a ride → Join → Ride together → Rate the ride → Add creator to Ridi
 - [x] iOS — Add / Remove from Riding Circle on any public profile (button hidden on own profile)
 - [x] iOS — circle_count updates live in ProfileView immediately after add/remove without a reload
 - [x] iOS — bug fix: creator no longer sees "Join" button on cancelled or completed rides
+- [x] iOS — Riding Circle navigation fix: NavigationLink now navigates on first tap (switched from value-based to destination-based)
+- [x] iOS — My Rides sort: active/planned rides first (ascending by date), cancelled/completed last (descending)
+- [x] iOS — MapSnapshotView: draws orange pin at start and white pin at end coordinate over the static map image (MKMapSnapshotter + UIGraphicsImageRenderer)
+- [x] iOS — Ride detail start location: tappable label opens Apple Maps with driving directions
+
+### Rider Languages
+*For emigrants and travelers who want to ride but face a language barrier.*
+- [x] Backend — `languages` field on user profile; rides return `creator_languages` via JOIN (no separate field on rides — language comes from the creator's profile)
+- [x] iOS — `LanguagePickerField` — full-screen sheet with search, checkmarks, localized names sorted A→Z, collapsed pill row when closed
+- [x] iOS — language selector on profile edit (e.g. 🇺🇦 Ukrainian · 🇬🇧 English)
+- [x] iOS — language flags visible on ride card, map preview card, ride detail organizer card, and public profile
+- [x] iOS — filter rides by language in the ride list
+- [x] iOS — languages section on Public Profile view (flag + name chips)
+- [x] Backend — `GET /rides` language filter: `u.languages && $n::text[]`
+
+### Auth Enhancements
+- [x] iOS — Face ID / Touch ID login (LocalAuthentication + Keychain, biometric token stored in separate Keychain key, persists across logout)
+- [x] Backend — Google OAuth endpoint (`POST /auth/google`, google-auth-library, find-or-create user)
+- [x] iOS — Sign in with Google (GIDSignIn SDK, custom button, Google Cloud Console configured)
+- [x] Backend — Sign in with Apple endpoint (`POST /auth/apple`, apple-signin-auth, find-or-create user)
+- [x] iOS — Sign in with Apple (code complete — capability requires Apple Developer account to activate in Xcode)
 
 ### Push Notifications
 - [ ] **Purchase Apple Developer Program** — $99/year, required for APNs, TestFlight, App Store
@@ -112,14 +125,23 @@ Find a ride → Join → Ride together → Rate the ride → Add creator to Ridi
 - [ ] Notification types: someone joined your ride, ride status changed, new ride from Circle member
 - [ ] Notification preferences — per-type on/off (UI already exists in Settings)
 
+### Infrastructure & DevOps
+- [x] CI/CD pre-production — GitHub Actions (lint → test → docker build → Railway deploy → Telegram notify)
+- [ ] Production environment on Railway (окремий environment, окремий Neon DB)
+- [ ] GitHub Environments: production secrets (RAILWAY_SERVICE_ID, DATABASE_URL, SECRET_KEY, REFRESH_KEY тощо)
+- [ ] CI/CD production — workflow тригер на git tag `v*.*.*` → docker tag `production` → Railway deploy
+- [ ] GitHub Releases — вручну після кожного production deploy (тег → release notes → publish)
+
 ### Polish & Launch Prep
-- [ ] iOS — password complexity validation on register/change-password screens (min eight chars, uppercase, number, special character — mirrors backend rules)
-- [ ] Error states and empty states on all screens
+- [x] iOS — password complexity hints on register/change-password screens — real-time `PasswordHintsView` (4 pill indicators: 8+, A–Z, 0–9, !@#)
+- [ ] Error states and empty states on all screens (RideListView done — errorMessage branch added)
 - [ ] Loading skeletons / indicators where missing
-- [ ] Offline handling — graceful errors on no connection
+- [x] Offline handling — `NetworkClient` catches `.notConnectedToInternet` / `.networkConnectionLost`, surfaces readable error to user
 - [ ] Performance — image caching, pagination edge cases
 - [ ] App icon, launch screen, onboarding flow
-- [ ] QA all four languages (EN, UK, PL, DE) — layouts, text overflow
+- [x] QA all four languages (EN, UK, PL, DE) — fixed missing `status_open` in UK/PL/DE; fixed typo "Not verifed" in EN
+- [x] Telegram Bot — @motocommunity_bot (support); Telegram Channel — @motocommunityapp (announcements)
+- [x] Support & Donate page in Settings — `SupportView` with: Telegram Channel (community news), Telegram Bot (support), Buy Me a Coffee (donation); opens Telegram app or fallback Safari; placeholder links until bot/channel are created
 - [ ] Beta test with 10–20 real riders via TestFlight
 - [ ] Bug fixing from beta feedback
 - [ ] App Store Connect setup — screenshots, description, keywords, age rating
@@ -135,6 +157,12 @@ Find a ride → Join → Ride together → Rate the ride → Add creator to Ridi
 
 Only after v1 is live and stable with real user feedback.
 Phase 2 is business-oriented — features that grow the community and generate revenue.
+
+### Ride Tracking & Ride Summary Card
+- [ ] Backend — `route_points` (JSONB array `{lat, lng, timestamp}`), `distance_km`, `avg_speed_kmh` on rides table
+- [ ] iOS — CLLocationManager background tracking during active ride; GPS noise filtering; real-time distance + avg speed calculation
+- [ ] iOS — Ride Summary Card: branded visual card after ride completion (route map snapshot, distance, avg speed, duration, date, participants)
+- [ ] iOS — Share button → `UIActivityViewController` → save to Photos or share directly to Instagram Stories (via `instagram-stories` URL scheme)
 
 ### Local Feed
 - [ ] Backend — feed algorithm: nearby rides + Riding Circle activity + community events

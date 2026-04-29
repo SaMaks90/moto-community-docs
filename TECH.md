@@ -58,6 +58,9 @@ modules/
 | **MapKit** | Map and location features |
 | **Keychain** | Secure token storage |
 | **URLSession** | HTTP networking |
+| **LocalAuthentication** | Face ID / Touch ID biometric login |
+| **GoogleSignIn SDK** | Sign in with Google |
+| **AuthenticationServices** | Sign in with Apple |
 
 ### Architecture
 
@@ -79,6 +82,10 @@ Core/
 ### Key Design Decisions
 
 **Auto token refresh** — `NetworkClient` intercepts 401 responses, refreshes the access token, and retries the original request automatically.
+
+**Offline detection** — `NetworkClient` catches `URLError.notConnectedToInternet` and `networkConnectionLost` before any server error handling, surfacing a readable message to the user.
+
+**Biometric auth** — `BiometricAuthManager` wraps `LAContext.evaluatePolicy` in `withCheckedContinuation`. Biometric refresh token is stored in a separate Keychain key (`biometric_refresh_token`) — not cleared on regular logout, only on account deletion or when user disables the feature. Token is rotated after each biometric login.
 
 **No third-party networking library** — pure `URLSession`. Keeps dependencies minimal for a project at this stage.
 
@@ -157,11 +164,13 @@ The localization framework (`Localization.swift`, `LocalizationManager.swift`) i
 |------|----------------|
 | **Certificate pinning** | `PinningURLSessionDelegate` — SHA-256 SPKI hash check on every TLS handshake; skipped in DEBUG |
 | **Token storage** | Both access and refresh tokens stored in Keychain with `kSecAttrAccessibleWhenUnlockedThisDeviceOnly` |
+| **Biometric token** | Separate `biometric_refresh_token` Keychain key — survives logout, cleared only on account deletion or feature toggle-off |
 | **Password fields** | `SecureField` with `textContentType(.password)` and `privacySensitive()` — prevents copy and marks content as sensitive |
 | **App Switcher privacy** | `.privacyScreen()` modifier on auth and password screens — overlays black when app is not active |
-| **Password validation** | Complexity enforced client-side on register and change-password (mirrors backend rules) |
+| **Password validation** | Complexity enforced client-side on register and change-password (mirrors backend rules); real-time `PasswordHintsView` |
 | **Memory hygiene** | Passwords cleared from `@Published` properties immediately after successful submit |
 | **Debug logging** | Only `[statusCode] /path` logged in DEBUG — no response bodies, no tokens, no PII |
+| **Biometric auth** | Face ID / Touch ID via `LocalAuthentication`; `NSFaceIDUsageDescription` in Info.plist |
 
 ### Password requirements (backend + iOS)
 
@@ -250,6 +259,24 @@ When migrating hosting: reconnect the Log Drain to the new server. Log history s
 - **pino stdout logging** — hosting-agnostic, works on any platform
 - **Cloudflare R2** — zero egress fees, no vendor lock-in vs AWS S3
 - **Parameterized SQL** — no ORM means query optimization is explicit and straightforward
+
+---
+
+## Community Infrastructure
+
+| Service | Platform | Details |
+|---------|----------|---------|
+| Telegram Channel | Telegram | `@motocommunityapp` — анонси, новини |
+| Telegram Bot | Railway (окремий service) | `@motocommunity_bot` — feedback від користувачів |
+| Donations | Ko-fi | `https://ko-fi.com/samchenkoms` |
+
+### Telegram Feedback Bot
+
+- **Репо:** `moto-community-telegram-bot` — окремий GitHub репо
+- **Stack:** Node.js + TypeScript + Telegraf.js
+- **Deploy:** Railway — окремий service, `npm run build && npm start`
+- **Session:** in-memory `Map` — достатньо для single-instance, без Redis
+- **Flow:** `/start` → категорія → повідомлення → форвард у приватну групу → підтвердження юзеру
 
 ---
 

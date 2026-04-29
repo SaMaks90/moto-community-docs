@@ -65,19 +65,21 @@ After every completed ride or SOS response, participants can rate each other wit
 
 ## Status
 
-> Currently in active development. Backend MVP is complete. iOS app Phase 1 is in progress.
+> Currently in active development. Phase 1 is nearly complete — targeting App Store release August 2026.
 
 | Component | Status |
 |-----------|--------|
-| Backend API | MVP complete — auth, rides, participants, geo-filtering, status validation, metrics |
-| iOS App | Core done — Auth, Rides (list, create, edit, my rides, join/leave, detail), Map (pins, filters, preview card), Profile, Settings, PublicProfile |
-| Localization (EN, UK, PL, DE) | Complete |
-| Rider Languages | Planned (v1) |
-| Follow System | ✅ Complete (backend + iOS) |
-| Trust & Riding Circle | Planned (v1) |
-| Push Notifications | Planned (v1, blocked — requires Apple Developer account $99) |
+| Backend API | ✅ Complete — auth, rides, participants, geo-filtering, Trust & Riding Circle, Rider Languages, OAuth, logging |
+| iOS App | ✅ Core complete — Auth (incl. Face ID, Google, Apple), Rides, Map, Profile, Trust & Riding Circle, Rider Languages, Support |
+| Localization (EN, UK, PL, DE) | ✅ Complete |
+| Trust & Riding Circle | ✅ Complete (backend + iOS) |
+| Rider Languages | ✅ Complete (backend + iOS) |
+| Forgot / Reset Password | ✅ Complete |
+| Push Notifications | ⏳ Planned (v1, blocked — requires Apple Developer Program $99) |
+| Production infrastructure | ⏳ Planned (v1) |
+| App Store release | 🎯 Target: August 2026 |
 | Android App | Planned |
-| Passenger Mode | Planned (v1) |
+| Passenger Mode | Planned (v2) |
 | SOS System | Planned (v2) |
 | Local Feed | Planned (v2) |
 | Clubs | Planned (v2) |
@@ -148,8 +150,21 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
 
 ---
 
+## Community & Support
+
+| | |
+|-|-|
+| 📣 **Telegram Channel** | [@motocommunityapp](https://t.me/motocommunityapp) — news, updates, release announcements |
+| 🤖 **Telegram Bot** | [@motocommunity_bot](https://t.me/motocommunity_bot) — bug reports, questions, feedback |
+| ☕ **Ko-fi** | [ko-fi.com/samchenkoms](https://ko-fi.com/samchenkoms) — support the development |
+
+Follow the Telegram channel to stay updated on new releases and features.
+If you found a bug or have a suggestion — write to the bot, it goes straight to the developer.
+
+---
+
 ## Contact
 
 Built by [@SaMaks90](https://github.com/SaMaks90)
 
-For questions, ideas or partnership inquiries — open an issue or reach out directly.
+For questions, ideas or partnership inquiries — open an issue, write to [@motocommunity_bot](https://t.me/motocommunity_bot), or reach out directly.
