@@ -118,6 +118,40 @@ Find a ride → Join → Ride together → Rate the ride → Add creator to Ridi
 - [x] Backend — Sign in with Apple endpoint (`POST /auth/apple`, apple-signin-auth, find-or-create user)
 - [x] iOS — Sign in with Apple (code complete — capability requires Apple Developer account to activate in Xcode)
 
+### Localization Expansion (RU/BE)
+*Russian and Belarusian interface — emigrants and cross-border riders.*
+- [x] iOS — перевірити що RU і BE присутні в `Language.all` (`Language.swift`) для фічі "Languages I speak" — RU вже був, BE (🇧🇾) додано
+- [x] iOS — додати `ru.lproj/Localizable.strings` — переклад інтерфейсу на Russian
+- [x] iOS — додати `be.lproj/Localizable.strings` — переклад інтерфейсу на Belarusian
+- [x] iOS — оновити `LanguageSelector` — додати RU і BE як варіанти вибору мови інтерфейсу
+
+### Website
+*Next.js лендінг — `moto-community-web/`, окремий GitHub репо, деплой на Railway. Потрібен до App Store submission (Privacy Policy URL).*
+- [x] Setup — Next.js 16 проєкт в `moto-community-web/`, готовий до пушу в GitHub
+- [x] Односторінковий лендінг — мультимовний (EN, UK, PL, DE, RU, BE)
+- [x] Privacy Policy сторінка — публічний URL для App Store Connect
+- [x] i18n роутинг — URL-підпапки (`/en/`, `/uk/`, `/ru/` тощо), locale detection через Accept-Language
+- [x] `hreflang` теги + `x-default` — вказує Google яка мовна версія для якого регіону
+- [x] `generateMetadata` — унікальні `<title>` і `<meta description>` на кожній мові
+- [x] Open Graph теги + OG Image (динамічна `opengraph-image.tsx`, 1200×630) — превʼю в соцмережах і месенджерах
+- [x] Twitter Card (`summary_large_image`)
+- [x] JSON-LD structured data — `MobileApplication` schema → rich results в Google
+- [x] `sitemap.xml` — усі мовні версії всіх сторінок, автогенерація через `next-sitemap`
+- [x] `robots.txt` — дозволити індексацію всіх публічних сторінок
+- [x] Семантична розмітка — `<header>`, `<main>`, `<nav>`, `<section>`, `<footer>`, `<h1>`, `<h2>`
+- [x] Cloudflare Web Analytics — beacon token отримано, `NEXT_PUBLIC_CF_BEACON_TOKEN` додано в Railway env
+- [x] Deploy — GitHub репо створено, підключено до Railway, `NEXT_PUBLIC_SITE_URL=https://motocommunity.app`, домен `motocommunity.app` придбано і підключено
+- [x] iOS — після публікації сайту: додати Privacy Policy посилання в `AboutAppView` (нова секція "Legal", відкриває URL в Safari); додати `privacy_policy` ключ у всі 6 файлів локалізації
+- [ ] Website — секція App Screenshots між Features і DownloadCTA
+  - **Блокер:** емодзі (прапорці мов) не відображаються в симуляторі — знімати тільки на реальному пристрої або після фіксу
+  - Потрібні 4 скріншоти (iPhone 16 Pro Max, 6.9", мова EN, темний режим):
+    - [ ] **Rides List** — декілька поїздок з різними статусами і мовними прапорцями
+    - [ ] **Map** — декілька пінів на карті, один вибраний з превью
+    - [ ] **Ride Detail** — учасники, маршрут, кнопка Join
+    - [ ] **Profile** — Trust Score, Riding Circle, мови
+  - [ ] Додати компонент `Screenshots.tsx` на лендінг (горизонтальний скрол або grid)
+  - [ ] Оновити всі 6 мовних `json` — новий ключ для заголовку секції
+
 ### Push Notifications
 - [ ] **Purchase Apple Developer Program** — $99/year, required for APNs, TestFlight, App Store
 - [ ] Backend — APNs integration, device token storage, notification service
@@ -131,20 +165,27 @@ Find a ride → Join → Ride together → Rate the ride → Add creator to Ridi
 - [ ] GitHub Environments: production secrets (RAILWAY_SERVICE_ID, DATABASE_URL, SECRET_KEY, REFRESH_KEY тощо)
 - [ ] CI/CD production — workflow тригер на git tag `v*.*.*` → docker tag `production` → Railway deploy
 - [ ] GitHub Releases — вручну після кожного production deploy (тег → release notes → publish)
+- [ ] Certificate Pinning — після налаштування production домену: `openssl s_client -connect <production-domain>:443 2>/dev/null | openssl x509 -pubkey -noout | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | openssl enc -base64` → додати хеш у `PinningURLSessionDelegate.pinnedHashes` поруч з pre-production хешем
 
-### Polish & Launch Prep
+### Launch Prep
 - [x] iOS — password complexity hints on register/change-password screens — real-time `PasswordHintsView` (4 pill indicators: 8+, A–Z, 0–9, !@#)
-- [ ] Error states and empty states on all screens (RideListView done — errorMessage branch added)
-- [ ] Loading skeletons / indicators where missing
+- [x] Error states and empty states on all screens — RideListView, RidingCircleView (wifi.slash + retry), MapView (error/locationDenied/empty/limit banners), RideDetail (no participants yet)
+- [x] Loading skeletons / indicators — ProfileView location skeleton, avatar upload overlay with ProgressView
 - [x] Offline handling — `NetworkClient` catches `.notConnectedToInternet` / `.networkConnectionLost`, surfaces readable error to user
-- [ ] Performance — image caching, pagination edge cases
-- [ ] App icon, launch screen, onboarding flow
+- [x] Performance — image caching (`ImageCache` NSCache singleton, `AvatarView` with `.task(id:)`), pagination edge case fix (`hasMorePages` uses `total_pages` from response)
+- [x] App icon, launch screen, onboarding flow — launch screen (black bg + logo), `OnboardingView` (3 slides, shown once via `@AppStorage`), `AboutAppView` з "View App Tour" кнопкою
 - [x] QA all four languages (EN, UK, PL, DE) — fixed missing `status_open` in UK/PL/DE; fixed typo "Not verifed" in EN
 - [x] Telegram Bot — @motocommunity_bot (support); Telegram Channel — @motocommunityapp (announcements)
 - [x] Support & Donate page in Settings — `SupportView` with: Telegram Channel (community news), Telegram Bot (support), Buy Me a Coffee (donation); opens Telegram app or fallback Safari; placeholder links until bot/channel are created
 - [ ] Beta test with 10–20 real riders via TestFlight
 - [ ] Bug fixing from beta feedback
-- [ ] App Store Connect setup — screenshots, description, keywords, age rating
+- [ ] App Store Connect setup:
+  - [ ] Screenshots — iPhone 6.9" (1320×2868 px), мінімум 3-5 екранів (зробити в симуляторі або на пристрої)
+  - [ ] App description, subtitle, keywords — у 4 мовах: EN, UK, PL, DE
+  - [ ] Privacy Policy — URL з `moto-community-web/` (без нього Apple не прийме)
+  - [ ] Category: Social Networking (або Sports)
+  - [ ] Age rating: заповнити анкету Apple (зазвичай 12+)
+  - [ ] Developer info — береться з Apple Developer акаунту автоматично
 - [ ] Submit for App Store review
 - [ ] Launch in Ukraine as first market
 

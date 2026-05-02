@@ -102,9 +102,30 @@ Core/
 | **File storage** | Avatars and media (S3-compatible) | Cloudflare R2 |
 | **Email delivery** | Verification and transactional emails | Resend |
 
+### Neon Branching Strategy
+
+One Neon project, two child branches — no separate project needed for production.
+
+```
+Neon Project: moto-community
+  └── main              → Railway pre-production service
+  └── production        → Railway production service (after App Store release)
+```
+
+**How it works:**
+- `production` is a **child branch** created from `main` at release time
+- Neon uses copy-on-write internally — branch creation is instant with no data copying
+- After branching, each environment is fully independent: data changes do not propagate between branches
+- Each branch has its own `DATABASE_URL` — set it in the corresponding Railway service env vars
+- Migrations must be run separately per branch
+
+**When to create the production branch:** right before the App Store release, once `main` is in a stable state.
+
+---
+
 ### Why these services
 
-**Neon** — serverless PostgreSQL with a generous free tier, branching for dev/prod environments, and scale-to-zero for cost efficiency early on.
+**Neon** — serverless PostgreSQL with a generous free tier, child branching for environment isolation, and scale-to-zero for cost efficiency early on.
 
 **Railway** — simple deployment from GitHub, environment variables UI, built-in metrics. No infrastructure config needed.
 

@@ -71,7 +71,8 @@ After every completed ride or SOS response, participants can rate each other wit
 |-----------|--------|
 | Backend API | ✅ Complete — auth, rides, participants, geo-filtering, Trust & Riding Circle, Rider Languages, OAuth, logging |
 | iOS App | ✅ Core complete — Auth (incl. Face ID, Google, Apple), Rides, Map, Profile, Trust & Riding Circle, Rider Languages, Support |
-| Localization (EN, UK, PL, DE) | ✅ Complete |
+| Localization (EN, UK, PL, DE, RU, BE) | ✅ Complete |
+| Website + Privacy Policy | ✅ Complete — multilingual Next.js landing, SEO, OG Image, JSON-LD |
 | Trust & Riding Circle | ✅ Complete (backend + iOS) |
 | Rider Languages | ✅ Complete (backend + iOS) |
 | Forgot / Reset Password | ✅ Complete |
@@ -95,9 +96,11 @@ After every completed ride or SOS response, participants can rate each other wit
 | Backend | Node.js, TypeScript, Express |
 | Database | PostgreSQL (Neon) |
 | iOS | Swift, SwiftUI |
+| Website | Next.js 16, TypeScript, Tailwind CSS |
 | Storage | Cloudflare R2 |
 | Hosting | Railway |
 | Email | Resend |
+| Analytics | Cloudflare Web Analytics |
 
 ---
 
@@ -107,12 +110,15 @@ After every completed ride or SOS response, participants can rate each other wit
 |------|-------------|------------|
 | moto-community-backend | REST API | Private (opening soon) |
 | moto-community-ios-app | iOS application | Private (opening soon) |
+| [moto-community-web](https://github.com/SaMaks90/moto-community-web) | Next.js landing page + Privacy Policy — [motocommunity.app](https://motocommunity.app) | Public |
+| moto-community-telegram-bot | Support & feedback bot (@motocommunity_bot) | Private (opening soon) |
 | [moto-community-docs](https://github.com/SaMaks90/moto-community-docs) | This repository — product docs | Public |
 
 ---
 
 ## Documentation
 
+- [Live Website](https://motocommunity.app) — landing page + Privacy Policy
 - [Product Vision](./PRODUCT.md) — problem, audience, monetization
 - [Roadmap](./ROADMAP.md) — what's built, what's next
 - [Tech Stack](./TECH.md) — architecture and infrastructure decisions
@@ -129,7 +135,7 @@ Riders in Ukraine, Poland, Germany, and beyond still coordinate through Telegram
 MotoCommunity is built to give this community a real home.
 
 Starting with Ukraine and Poland, expanding across Europe and globally.
-Launching with 4 languages: English, Ukrainian, Polish, and German.
+Launching with 6 languages: English, Ukrainian, Polish, German, Russian, and Belarusian.
 
 The long-term vision is a platform layer for the motorcycle world:
 from finding a ride partner to servicing your bike to verifying a used motorcycle's history.
