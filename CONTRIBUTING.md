@@ -1,6 +1,6 @@
 # Contributing to MotoCommunity
 
-First of all — thanks for your interest. MotoCommunity is an open-development project and contributions of any kind are welcome.
+First — thanks for your interest. MotoCommunity is an open-development project, and contributions of any kind are welcome.
 
 ---
 
@@ -8,12 +8,12 @@ First of all — thanks for your interest. MotoCommunity is an open-development 
 
 ### Right Now (Active Needs)
 
-| Area | Skills | Priority |
-|------|--------|----------|
-| iOS development | Swift, SwiftUI | High |
-| Backend | Node.js, TypeScript | Medium |
-| Design / UX | Figma or similar | Medium |
-| Android | Kotlin or React Native | Future |
+| Area            | Skills                 | Priority |
+|-----------------|------------------------|----------|
+| iOS development | Swift, SwiftUI         | None     |
+| Backend         | Node.js, TypeScript    | None     |
+| Design / UX     | Figma or similar       | Medium   |
+| Android         | Kotlin or React Native | Medium   |
 
 ### Always Welcome
 - Bug reports and bug fixes
@@ -33,19 +33,21 @@ First of all — thanks for your interest. MotoCommunity is an open-development 
 
 ### 2. Fork and clone the relevant repository
 
-| What you want to work on | Repository | Visibility |
-|--------------------------|-----------|------------|
-| Backend API | moto-community-backend | Private — request access via issue |
-| iOS app | moto-community-ios-app | Private — request access via issue |
-| Documentation | [moto-community-docs](https://github.com/SaMaks90/moto-community-docs) | Public |
+| What you want to work on | Repository                                                             | Visibility                         |
+|--------------------------|------------------------------------------------------------------------|------------------------------------|
+| Backend API              | moto-community-backend                                                 | Private — request access via issue |
+| iOS app                  | moto-community-ios-app                                                 | Private — request access via issue |
+| Website                  | moto-community-web                                                     | Private — request access via issue |
+| Telegram Bot             | moto-community-telegram-bot                                            | Private — request access via issue |
+| Documentation            | [moto-community-docs](https://github.com/SaMaks90/moto-community-docs) | Public                             |
 
 ### 3. Set up locally
 
-Backend and iOS repositories are currently private. To get access, open an issue in [moto-community-docs](https://github.com/SaMaks90/moto-community-docs) describing what you'd like to contribute — access will be granted individually.
+Backend, iOS, Telegram Bot, and Website repositories are currently private. To get access, open an issue in [moto-community-docs](https://github.com/SaMaks90/moto-community-docs) describing what you'd like to contribute — access will be granted individually.
 
 Once you have access:
 - Backend: follow `README.md` in the backend repo
-- iOS: open `MotoCommunity.xcodeproj` in Xcode 15+, set your development team in project settings, run on simulator or device
+- iOS: open `MotoCommunity.xcodeproj` in Xcode 17+, set your development team in project settings, run on simulator or device
 
 ### 4. Make your changes
 
@@ -64,18 +66,6 @@ Once you have access:
 ---
 
 ## Areas That Need Help Most
-
-### iOS — Rides & Map (High Priority)
-
-The backend is complete. The iOS app has auth and profile done.
-What's missing and most needed right now:
-
-- Rides list screen
-- Ride details screen
-- Create ride screen
-- Map screen (MapKit, nearby rides)
-
-If you're an iOS developer looking to contribute something meaningful — this is where the impact is.
 
 ### Design
 

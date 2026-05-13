@@ -38,7 +38,7 @@ You get notified when they plan a new ride
 
 Each rider's profile shows:
 - **Average rating** — from real post-ride reviews only
-- **Rides count** — total rides created + joined (experience signal)
+- **Rides count** — total rides created and joined (experience signal)
 - **Circle count** — how many people added this rider to their Circle (social proof)
 
 This creates a trust layer that:
@@ -67,7 +67,7 @@ When creating a ride, the organizer optionally specifies accepted languages.
 This information is visible everywhere — profile, ride card, filters.
 
 **Profile:**
-- Languages section — e.g. 🇺🇦 Ukrainian · 🇬🇧 English
+- Languages section — e.g., 🇺🇦 Ukrainian · 🇬🇧 English
 
 **Ride card:**
 - Language tags visible inline — quick signal before tapping into details
@@ -93,8 +93,8 @@ After a ride is completed, show the route on a map based on participants' GPS tr
 "Here's where we rode last Saturday" — shareable as a story or post.
 
 ### Weather Integration
-Show weather forecast for the ride date and start location when viewing or creating a ride.
-Nobody wants to plan a Sunday ride and find out it'll rain.
+Show the weather forecast for the ride date and start location when viewing or creating a ride.
+Nobody wants to plan a Sunday ride and find out if it'll rain.
 
 ### Rider Verification Badge
 Optional identity verification (driver's license photo or ID).
@@ -114,7 +114,7 @@ User sets their bike type once in profile — the app shows only relevant rides 
 
 ### Emergency Contact Integration
 When SOS is activated, optionally also send a notification to a pre-set emergency contact (not just nearby riders).
-Could include GPS location and a "I need help" message via SMS or email.
+Could include GPS location and an "I need help" message via SMS or email.
 
 ### Ride Chat
 Temporary group chat that opens automatically when a rider joins a ride.
@@ -130,7 +130,7 @@ Gamification layer for engaged communities.
 ## Monetization Ideas
 
 ### Local Business Announcements
-Moto gear shops, STO owners, event organizers, and brands can register a business account and send geo-targeted announcements to riders in a chosen radius.
+Moto gear shops, STO owners (motorcycle repair shops; UA: СТО, BY: СТА, EN: motorcycle repair/service shop), event organizers, and brands can register a business account and send geo-targeted announcements to riders in a chosen radius.
 
 Key insight: unlike Instagram or Facebook Ads, no audience setup is needed — everyone on the platform is already a motorcycle rider. A shop in Warsaw reaches Warsaw riders instantly.
 

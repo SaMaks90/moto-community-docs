@@ -20,7 +20,7 @@ A mobile platform that covers the full lifecycle of a motorcycle rider's social 
 
 1. **Find** — discover rides and riders nearby in real time
 2. **Connect** — join rides, offer or request a passenger seat
-3. **Trust** — build reputation through post-ride ratings
+3. **Trust** — build a reputation through post-ride ratings
 4. **Stay safe** — SOS system for roadside emergencies
 5. **Belong** — clubs, events, and community around shared passion
 
@@ -39,8 +39,8 @@ A mobile platform that covers the full lifecycle of a motorcycle rider's social 
 - Girls and beginners looking for a safe, trusted community to ride with
 
 ### Future (v2–v3)
-- STO (motorcycle service station) owners seeking visibility
-- Moto gear shops and brands wanting to reach a local rider audience
+- STO owners seeking visibility — STO (UA: Станція Технічного Обслуговування / BY: СТА — Станцыя Тэхнічнага Абслугоўвання / EN: motorcycle repair shop / PL: warsztat motocyklowy / DE: Motorradwerkstatt)
+- Moto gear shops and brands want to reach a local rider audience
 - Moto event and rally organizers
 - Used motorcycle buyers and sellers (bike history verification)
 
@@ -49,51 +49,51 @@ A mobile platform that covers the full lifecycle of a motorcycle rider's social 
 ## Core Features by Version
 
 ### v1 — MVP
-| Feature | Description |
-|---------|-------------|
-| Rider profile | Registration, avatar, bio, Instagram, location |
-| Ride creation | Date, route, bike type filter, engine size filter, max participants |
-| Ride discovery | Map + list view, geo-based search, filters |
-| Join / Leave | One-tap participation with capacity enforcement |
-| Passenger mode | Riders offer a seat; non-riders can join as passengers |
-| SOS Help | Emergency signal with GPS to nearby riders |
-| Push notifications | Required for SOS — riders nearby get an instant alert even with the app closed |
-| Rider ratings | Star rating after completed rides and SOS interactions |
-| Local feed | Activity feed filtered by region — nearby rides, community events, SOS activity |
-| Email verification | Verified accounts only |
-| Localization | English, Ukrainian, Polish, German |
+| Feature            | Description                                                                     |
+|--------------------|---------------------------------------------------------------------------------|
+| Rider profile      | Registration, avatar, bio, Instagram, location                                  |
+| Ride creation      | Date, route, bike type filter, engine size filter, max participants             |
+| Ride discovery     | Map + list view, geo-based search, filters                                      |
+| Join / Leave       | One-tap participation with capacity enforcement                                 |
+| Passenger mode     | Riders offer a seat; non-riders can join as passengers                          |
+| SOS Help           | Emergency signal with GPS to nearby riders                                      |
+| Push notifications | Required for SOS — riders nearby get an instant alert even with the app closed  |
+| Rider ratings      | Star rating after completed rides and SOS interactions                          |
+| Local feed         | Activity feed filtered by region — nearby rides, community events, SOS activity |
+| Email verification | Verified accounts only                                                          |
+| Localization       | English, Ukrainian, Polish, German                                              |
 
 > **Note:** Push notifications require an Apple Developer Program account ($99/year) and APNs backend integration. This is a prerequisite for the App Store launch regardless.
 
 ### v2 — Community
-| Feature | Description |
-|---------|-------------|
-| Clubs | Private groups with membership, roles, and events |
-| STO Catalog | Directory of motorcycle service stations with reviews |
-| Local business announcements | Geo-targeted posts from shops, events, and brands |
-| Chat | Direct messaging between riders |
+| Feature                      | Description                                           |
+|------------------------------|-------------------------------------------------------|
+| Clubs                        | Private groups with membership, roles, and events     |
+| STO Catalog                  | Directory of motorcycle service stations with reviews |
+| Local business announcements | Geo-targeted posts from shops, events, and brands     |
+| Chat                         | Direct messaging between riders                       |
 
 ### v3 — Platform
-| Feature | Description |
-|---------|-------------|
+| Feature      | Description                                   |
+|--------------|-----------------------------------------------|
 | Bike History | Service and ownership history by plate number |
-| Marketplace | Buy/sell motorcycle gear and bikes |
-| Android App | Expand reach beyond iOS |
+| Marketplace  | Buy/sell motorcycle gear and bikes            |
+| Android App  | Expand reach beyond iOS                       |
 
 ---
 
 ## Monetization
 
-The app is free to use. Revenue model options being considered:
+The app is free to use. Revenue model options are being considered:
 
-| Model | Description | Timeline |
-|-------|-------------|----------|
-| **Freemium** | Free core features; premium subscription for advanced filters, priority SOS, club tools | v2 |
-| **Local business announcements** | Geo-targeted announcements from moto-related businesses to riders nearby | v2 |
-| **STO listings** | Paid placement and featured profiles for service stations | v2 |
-| **Event promotion** | Paid promotion for moto events and club rides | v2 |
-| **Data & partnerships** | Anonymized route and usage data for insurance companies, city planners, moto manufacturers | v3 |
-| **Marketplace commission** | % fee on gear/bike transactions | v3 |
+| Model                            | Description                                                                                | Timeline |
+|----------------------------------|--------------------------------------------------------------------------------------------|----------|
+| **Freemium**                     | Free core features; premium subscription for advanced filters, priority SOS, club tools    | v2       |
+| **Local business announcements** | Geo-targeted announcements from moto-related businesses to riders nearby                   | v2       |
+| **STO listings**                 | Paid placement and featured profiles for service stations                                  | v2       |
+| **Event promotion**              | Paid promotion for moto events and club rides                                              | v2       |
+| **Data & partnerships**          | Anonymized route and usage data for insurance companies, city planners, moto manufacturers | v3       |
+| **Marketplace commission**       | % fee on gear/bike transactions                                                            | v3       |
 
 ### Local Business Announcements — detailed
 
@@ -115,8 +115,8 @@ A business (gear shop, STO, event organizer, manufacturer) registers a business 
 **How it works (proposed):**
 1. Business registers a `business account`
 2. Creates an announcement — title, text, image, link
-3. Sets a target radius (e.g. 30 km from Kyiv)
-4. Pays a flat fee per send — or a monthly subscription for unlimited sends
+3. Sets a target radius (e.g., 30 km from Kyiv)
+4. Pays a flat fee per sending — or a monthly subscription for unlimited sending
 5. Riders in that area see it in a dedicated "Local" feed or receive a push notification (opt-in)
 
 **Key UX principle:** announcements are clearly labeled as business posts, never mixed with organic ride content. Users can opt out of business notifications without losing ride alerts.
@@ -128,12 +128,12 @@ A business (gear shop, STO, event organizer, manufacturer) registers a business 
 MotoCommunity targets a global audience from day one, with an initial focus on markets where the founding network exists.
 
 ### Launch markets
-| Market | Registered motorcycles | Notes |
-|--------|----------------------|-------|
-| Ukraine | ~500,000 | Home market, initial community |
-| Poland | ~1,200,000 | Strong moto culture, direct network |
-| Germany | ~4,700,000 | Largest moto market in Europe |
-| Europe total | ~35,000,000+ | Long-term expansion target |
+| Market       | Registered motorcycles | Notes                               |
+|--------------|------------------------|-------------------------------------|
+| Ukraine      | ~500,000               | Home market, initial community      |
+| Poland       | ~1,200,000             | Strong moto culture, direct network |
+| Germany      | ~4,700,000             | Largest moto market in Europe       |
+| Europe total | ~35,000,000+           | Long-term expansion target          |
 
 ### Global picture
 - ~200,000,000+ registered motorcycles worldwide
@@ -143,29 +143,29 @@ MotoCommunity targets a global audience from day one, with an initial focus on m
 **Comparable platforms for reference:**
 - Rever (US) — route tracking and social, not real-time ride coordination
 - Calimoto (Germany) — navigation focused, no community layer
-- Strava (cycling) — proof that community + activity tracking is a globally sticky product
+- Strava (cycling) — proof that community and activity tracking is a globally sticky product
 
 ---
 
 ## Competitive Advantage
 
-| Factor | MotoCommunity | Telegram/Facebook | Rever / Calimoto |
-|--------|--------------|-------------------|-----------------|
-| Real-time ride discovery | Yes | No | No |
-| Passenger mode | Yes | No | No |
-| SOS system | Yes | No | No |
-| Rider trust ratings | Yes | No | No |
-| Built for mobile | Yes | Partial | Yes |
-| Eastern Europe focus | Yes | Yes | No |
+| Factor                   | MotoCommunity | Telegram/Facebook | Rever / Calimoto |
+|--------------------------|---------------|-------------------|------------------|
+| Real-time ride discovery | Yes           | No                | No               |
+| Passenger mode           | Yes           | No                | No               |
+| SOS system               | Yes           | No                | No               |
+| Rider trust ratings      | Yes           | No                | No               |
+| Built for mobile         | Yes           | Partial           | Yes              |
+| Eastern Europe focus     | Yes           | Yes               | No               |
 
 ---
 
 ## Success Metrics (v1)
 
-| Metric | Target (3 months post-launch) |
-|--------|-------------------------------|
-| Registered users | 1,000+ |
-| Completed rides | 200+ |
-| SOS activations | Tracked (any number validates feature) |
-| D7 retention | > 20% |
-| Average rating given | > 4.0 / 5.0 |
+| Metric               | Target (3 months post-launch)          |
+|----------------------|----------------------------------------|
+| Registered users     | 1,000+                                 |
+| Completed rides      | 200+                                   |
+| SOS activations      | Tracked (any number validates feature) |
+| D7 retention         | > 20%                                  |
+| Average rating given | > 4.0 / 5.0                            |
